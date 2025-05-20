@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "101878783384",
+    "project_id": "animo-e87a3",
+    "storage_bucket": "animo-e87a3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101878783384:android:195ca2a9471335adeedfed",
+        "android_client_info": {
+          "package_name": "com.example.animo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOI-TDjf79g4eEC2zLuqwbsvX17ruzoHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
