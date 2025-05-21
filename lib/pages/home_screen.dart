@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:animo/pages/details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -68,80 +69,113 @@ class _HomeScreenState extends State<HomeScreen> {
                           var type = animo[index]['type'][0];
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color:
-                                    type == 'Grass'
-                                        ? Colors.green
-                                        : type == 'Fire'
-                                        ? Colors.red
-                                        : type == 'Water'
-                                        ? Colors.blue
-                                        : type == 'Electric'
-                                        ? Colors.yellow
-                                        : type == 'Rock'
-                                        ? Colors.brown
-                                        : Colors.pink,
-                              ),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (_) => Details(
+                                          colr:
+                                              type == 'Grass'
+                                                  ? Colors.green
+                                                  : type == 'Fire'
+                                                  ? Colors.red
+                                                  : type == 'Water'
+                                                  ? Colors.blue
+                                                  : type == 'Electric'
+                                                  ? Colors.yellow
+                                                  : type == 'Rock'
+                                                  ? Colors.brown
+                                                  : Colors.pink,
+                                          taq: index,
+                                          animedet: animo[index],
+                                        ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color:
+                                      type == 'Grass'
+                                          ? Colors.green
+                                          : type == 'Fire'
+                                          ? Colors.red
+                                          : type == 'Water'
+                                          ? Colors.blue
+                                          : type == 'Electric'
+                                          ? Colors.yellow
+                                          : type == 'Rock'
+                                          ? Colors.brown
+                                          : Colors.pink,
+                                ),
 
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    right: -50,
-                                    bottom: 0,
-                                    child: Image.asset(
-                                      'assets/animation/sari-removebg-preview.png',
-                                      height: 100,
-                                      width: 100,
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 15,
-                                    left: 10,
-                                    child: Text(
-                                      animo[index]['name'],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 25,
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      right: -50,
+                                      bottom: 0,
+                                      child: Image.asset(
+                                        'assets/animation/sari-removebg-preview.png',
+                                        height: 100,
+                                        width: 100,
+                                        fit: BoxFit.fitHeight,
                                       ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    bottom: 2,
-                                    left: 2,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Colors.white,
+                                    Positioned(
+                                      top: 15,
+                                      left: 10,
+                                      child: Text(
+                                        animo[index]['name'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 25,
+                                        ),
                                       ),
+                                    ),
+                                    Positioned(
+                                      bottom: 2,
+                                      left: 2,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          type,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              20,
+                                            ),
+                                            color: Colors.white.withOpacity(
+                                              0.2,
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              type,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    bottom: 10,
-                                    right: 10,
-                                    child: Container(
-                                      child: CachedNetworkImage(
-                                        imageUrl: animo[index]['img'],
-                                        height: 100,
-                                        fit: BoxFit.cover,
+                                    Positioned(
+                                      bottom: 10,
+                                      right: 10,
+                                      child: Container(
+                                        child: CachedNetworkImage(
+                                          imageUrl: animo[index]['img'],
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
