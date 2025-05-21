@@ -1,7 +1,12 @@
 import 'package:animo/auth/Login_Screen.dart';
+import 'package:animo/pages/home_screen.dart';
 import 'package:animo/widgets/button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Registation extends StatefulWidget {
   const Registation({super.key});
@@ -129,7 +134,16 @@ class _RegistationState extends State<Registation> {
                 padding: const EdgeInsets.all(8.0),
                 child: LoadingAnimatedButton(
                   child: Text('Register'),
-                  onTap: () {},
+                  onTap: () {
+                    registerUser();
+                    final form = fromkey.currentState;
+                    String email = emailcontroller.text;
+                    String password = passwordcontroller.text;
+                    if (form!.validate()) {
+                      final email = emailcontroller.text;
+                      final password = passwordcontroller.text;
+                    } else {}
+                  },
                 ),
               ),
               Padding(
@@ -169,5 +183,50 @@ class _RegistationState extends State<Registation> {
         ),
       ),
     );
+  }
+
+  void registerUser() {
+    if (passwordcontroller.text == "") {
+      Fluttertoast.showToast(msg: 'Password cannot be blank');
+    } else if (emailcontroller.text == "") {
+      Fluttertoast.showToast(msg: 'Email cannot be blank');
+    } else {
+      String email = emailcontroller.text;
+      String password = passwordcontroller.text;
+      FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+            if (value != null) {
+              var user = value.user;
+              var uid = user!.uid;
+              addUserDate(uid);
+            }
+          })
+          .catchError((e) {
+            Fluttertoast.showToast(msg: '$e');
+          });
+    }
+  }
+
+  void addUserDate(String uid) {
+    Map<String, dynamic> usersData = {
+      'email': emailcontroller.text,
+      'pssword': passwordcontroller.text,
+      'uid': uid,
+    };
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .set(usersData)
+        .then((value) {
+          Fluttertoast.showToast(msg: 'Registration Successful');
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => HomeScreen()),
+          );
+        })
+        .catchError((e) {
+          Fluttertoast.showToast(msg: '$e');
+        });
   }
 }
